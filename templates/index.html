@@ -1,0 +1,133 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STYLMAN</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="container">
+        <div class="logo">
+            <a href="/">STYLMAN</a>
+        </div>
+        <nav class="nav-links">
+            <a href="/">Главная</a>
+            <a href="#">Мужчинам</a>
+            <a href="#">Новинки</a>
+            <a href="#">Контакты</a>
+        </nav>
+
+        
+
+        <div class="actions">
+            <a href="{% url 'login' %}" class="btn-accent">Войти</a>
+            <a href="{% url 'register' %}" class="btn-accent">Регистрация</a>
+            <a href="{% url 'cart' %}" class="cart">
+                <img src="{% static 'img/shopping-cart (1).svg' %}" alt="Корзина">
+                <span class="cart-count">{{ request.session.cart|length|default:0 }}</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<h1>Наши товары</h1>
+
+<form method="get" class="filter-form">
+    <div class="filter-section">
+        <label for="search">Поиск по названию:</label>
+        <input type="text" id="search" name="search" value="{{ request.GET.search }}">
+    </div>
+
+    <div class="filter-section">
+        <label for="min_price">Цена от:</label>
+        <input type="number" id="min_price" name="min_price" value="{{ request.GET.min_price }}">
+    </div>
+
+    <div class="filter-section">
+        <label for="max_price">Цена до:</label>
+        <input type="number" id="max_price" name="max_price" value="{{ request.GET.max_price }}">
+    </div>
+
+    <div class="filter-section">
+        <label for="brand">Бренд:</label>
+        <select name="brand" id="brand">
+            <option value="">Все бренды</option>
+            {% for brand in brands %}
+                <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>
+                    {{ brand.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="filter-actions">
+        <button type="submit" class="show-btn">Применить фильтр</button>
+        <a href="{% url 'index' %}" class="reset-btn">Сбросить</a>
+    </div>
+</form>
+
+
+
+<div class="products">
+    {% for good in goods %}
+        <div class="product-card">
+            <a href="{% url 'goods_detail' good.pk %}">
+                {% if good.picture %}
+                    <img src="{{ good.picture.url }}" alt="{{ good.name }}">
+                {% else %}
+                    <img src="{% static 'img/no-image.png' %}" alt="{{ good.name }}">
+                {% endif %}
+                <h3>{{ good.name }}</h3>
+                <p>Цена: {{ good.price }}$</p>
+            </a>
+            <a href="{% url 'add_to_cart' good.pk %}" class="add-to-cart-btn">
+                Добавить в корзину
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+<footer class="main-footer">
+    <div class="container footer-container">
+        <div class="footer-section about">
+            <h3>О нас</h3>
+            <p>STYLMAN — ваш онлайн магазин мужской моды. Качество, стиль и удобство!</p>
+        </div>
+
+        <div class="footer-section links">
+            <h3>Меню</h3>
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="#">Мужчинам</a></li>
+                <li><a href="#">Новинки</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h3>Контакты</h3>
+            <p>Email: info@stylman.com</p>
+            <p>Телефон: +996 555 123 456</p>
+            <div class="socials">
+                <a href="#"><img src="{% static 'img/facebook.svg' %}" alt="Facebook"></a>
+                <a href="#"><img src="{% static 'img/instagram.svg' %}" alt="Instagram"></a>
+                <a href="#"><img src="{% static 'img/twitter.svg' %}" alt="Twitter"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 STYLMAN. Все права защищены.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>

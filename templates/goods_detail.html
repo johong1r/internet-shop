@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ goods.name }} | STYLMAN</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="container">
+        <div class="logo">
+            <a href="/">STYLMAN</a>
+        </div>
+        <nav class="nav-links">
+            <a href="/">Главная</a>
+            <a href="#">Мужчинам</a>
+            <a href="#">Новинки</a>
+            <a href="#">Контакты</a>
+        </nav>
+
+
+        <div class="actions">
+            <a href="{% url 'login' %}" class="btn-accent">Войти</a>
+            <a href="{% url 'register' %}" class="btn-accent">Регистрация</a>
+            <a href="{% url 'cart' %}" class="cart">
+                <img src="{% static 'img/shopping-cart (1).svg' %}" alt="Корзина">
+                <span class="cart-count">{{ request.session.cart|length|default:0 }}</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="product-detail">
+    <div class="container">
+        <div class="product-detail-card">
+            <div class="product-image">
+                {% if goods.picture %}
+                    <img src="{{ goods.picture.url }}" alt="{{ goods.name }}">
+                {% else %}
+                    <img src="{% static 'img/no-image.png' %}" alt="{{ goods.name }}">
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h1>{{ goods.name }}</h1>
+                <p class="product-brand">Бренд: {{ goods.brand.name }}</p>
+                <p class="product-category">Категория: {{ goods.category.name }}</p>
+                <p class="product-price">Цена: {{ goods.price }}$</p>
+                <p class="product-description">{{ goods.description }}</p>
+
+                <a href="{% url 'add_to_cart' goods.pk %}" class="add-to-cart-btn">Добавить в корзину</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="main-footer">
+    <div class="container footer-container">
+        <div class="footer-section about">
+            <h3>О нас</h3>
+            <p>STYLMAN — ваш онлайн магазин мужской моды. Качество, стиль и удобство!</p>
+        </div>
+
+        <div class="footer-section links">
+            <h3>Меню</h3>
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="#">Мужчинам</a></li>
+                <li><a href="#">Новинки</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h3>Контакты</h3>
+            <p>Email: info@stylman.com</p>
+            <p>Телефон: +996 555 123 456</p>
+            <div class="socials">
+                <a href="#"><img src="{% static 'img/facebook.svg' %}" alt="Facebook"></a>
+                <a href="#"><img src="{% static 'img/instagram.svg' %}" alt="Instagram"></a>
+                <a href="#"><img src="{% static 'img/twitter.svg' %}" alt="Twitter"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 STYLMAN. Все права защищены.</p>
+    </div>
+</footer>
+</body>
+</html>

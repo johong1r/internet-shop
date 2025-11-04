@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">STYLMAN</a>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Главная</a>
+                <a href="#">Мужчинам</a>
+                <a href="#">Новинки</a>
+                <a href="#">Контакты</a>
+            </nav>
+
+    
+
+            <div class="actions">
+                <a href="#" class="btn-accent">Войти</a>
+                <a href="{% url 'register' %}" class="btn-accent">Регистрация</a>
+                <a href="#" class="cart">
+                    <img src="{% static 'img/shopping-cart (1).svg' %}" alt="Корзина">
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <h1>Корзина</h1>
+    <div class="cart-items">
+        {% for pk, item in cart.items %}
+            <div class="cart-item">
+                <img src="{{ item.cart.picture.url }}" alt="{{ item.cart.name }}">
+                <div class="item-details">
+                    <h3>{{ item.name }}</h3>
+                    <p>Цена: {{ item.price }}$</p>
+                </div>
+                    <div class="item-price">
+                        <p>Общая цена: {{ total_price }}$</p>
+                    </div>
+                
+
+                <a href="{% url 'remove_from_cart' pk %}">удалить</a>
+            </div>
+        {% empty %}
+            <p>Ваша корзина пуста.</p>
+        {% endfor %}
+    </div>
+
+    <a class="clear-cart-btn" href="{% url 'clear_cart' %}">очистить</a>
+</body>
+</html>
