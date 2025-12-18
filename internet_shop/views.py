@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Goods, Brand, Category
+from .models import Goods, Brand, Category, OrderItem, Order
 from django.views.generic import TemplateView, DetailView
 
 class IndexView(TemplateView):
@@ -60,3 +60,23 @@ def clear_cart_view(request):
     return redirect('cart')
 
 
+def checkout_view(request):
+    cart = request.session.get('cart', {})
+    if not cart:
+        return redirect('cart')
+
+    order = Order.objects.create()
+    for pk, item in cart.items():
+        goods = get_object_or_404(Goods, pk=pk)
+        order_item = OrderItem.objects.create(goods=goods, quantity=item['quantity'])   
+        order.items.add(order_item)
+
+    order.save()
+    request.session['cart'] = {}
+    return render(request, 'checkout_success.html', {'order': order})
+
+
+def order_history_view(request):
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, 'order_history.html', {'orders': orders}) 
+ 

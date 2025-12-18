@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+</head>
+<body>
+    <div class="order-page container">
+  <div class="order-card success">
+    <h1>Спасибо — заказ принят ✅</h1>
+
+    <p class="muted">Номер заказа: <strong>#{{ order.id }}</strong></p>
+    <p class="muted">Дата: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+
+    <h2>Состав заказа</h2>
+    <div class="order-items">
+      {% for item in order.items.all %}
+        <div class="order-item">
+          <div class="item-left">
+            {% if item.goods and item.goods.picture %}
+              <img src="{{ item.goods.picture.url }}" alt="{{ item.goods.name }}">
+            {% else %}
+              <div class="no-image">no image</div>
+            {% endif %}
+          </div>
+            <div class="item-right">
+                <div>{{ item.goods.name|default:"[товар удалён]" }}</div>
+                <div>Количество: {{ item.quantity }}</div>
+                <div>Цена: {{ item.goods.price|default:"0" }} $</div>
+                <div>Итого: {{ item.goods.price|default:"0"}} $</div>
+        </div>
+      {% empty %}
+        <p>В заказе нет товаров.</p>
+      {% endfor %}
+    </div>
+
+    <div class="order-summary">
+      <div>Итого: <strong>{{ order.items.all }} $</strong></div>
+    </div>
+
+    <div class="order-actions">
+      <a class="btn" href="{% url 'index' %}">На главную</a>
+      <a class="btn ghost" href="{% url 'order_history' %}">Мои заказы</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

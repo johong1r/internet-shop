@@ -39,3 +39,29 @@ class Goods(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.id}'
+
+
+class OrderItem(models.Model):
+    goods = models.ForeignKey(Goods, verbose_name='Товар', on_delete=models.CASCADE)
+    quantity = models.IntegerField(verbose_name='Количество', default=1)
+    price = models.IntegerField(verbose_name='Цена')
+    cart = models.ForeignKey('Order', verbose_name='Корзина', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Элемент заказа'
+        verbose_name_plural = 'Элементы заказа'
+
+    def __str__(self):
+        return f'OrderItem: {self.goods.name} (x{self.quantity})'
+    
+
+class Order(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания заказа')
+    user = models.ForeignKey(OrderItem, verbose_name='Пользователь', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self):
+        return f'Order #{self.id} - {self.items}'

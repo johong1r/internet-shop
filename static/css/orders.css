@@ -1,0 +1,81 @@
+
+
+:root{
+  --bg: #0f1724;
+  --card: #121826;
+  --muted: #b8c0c8;
+  --accent: #ff6b6b;
+  --text: #ecf0f3;
+  --ghost: rgba(255,255,255,0.06);
+}
+
+.container{ max-width: 1100px; margin: 30px auto; padding: 0 16px; }
+
+.order-card{
+  background: var(--card);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+.order-card.success h1{
+  color: var(--accent);
+  margin: 0 0 8px 0;
+}
+
+.muted{ color: var(--muted); margin: 6px 0 14px 0; }
+
+.order-items{ margin-top: 10px; display: flex; flex-direction: column; gap: 14px; }
+
+.order-item{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.order-item .item-left img{
+  width: 84px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.no-image{
+  width: 84px; height: 64px; display:flex; align-items:center; justify-content:center;
+  background: var(--ghost); color: var(--muted); border-radius:6px; font-size:12px;
+}
+
+.item-mid{ flex:1; }
+.item-title{ font-weight:700; margin-bottom:6px; color:var(--text); }
+.item-meta{ color:var(--muted); font-size:14px; }
+
+.item-right{ min-width:110px; text-align:right; font-weight:700; color:var(--text); }
+
+.order-summary{ margin-top: 18px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.03); display:flex; justify-content: flex-end; font-size:18px; color:var(--text); }
+
+.order-actions{ margin-top:18px; display:flex; gap:10px; justify-content:flex-end; }
+.btn{
+  display:inline-block; padding:10px 14px; background:var(--accent); color:#fff; border-radius:8px; text-decoration:none; font-weight:700;
+}
+.btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); }
+
+.orders-list{ display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+.order-row{
+  display:grid;
+  grid-template-columns: 1fr 90px 160px 120px;
+  gap:12px;
+  align-items:center;
+  background: rgba(255,255,255,0.02);
+  padding:12px; border-radius:8px;
+}
+.order-info .order-id{ font-weight:700; color:var(--text); }
+.order-date{ color:var(--muted); font-size:13px; margin-top:4px; }
+.order-preview img{ width:90px; height:64px; object-fit:cover; border-radius:6px; }
+.order-meta{ color:var(--muted); font-size:14px; }
+.btn.small{ padding:6px 10px; font-size:13px; }
+

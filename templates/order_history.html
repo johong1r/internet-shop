@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+</head>
+<body>
+    <div class="order-page container">
+  <h1>История заказов</h1>
+
+  <div class="orders-list">
+    {% for order in orders %}
+      <div class="order-row">
+        <div class="order-info">
+          <div class="order-id">Заказ #{{ order.id }}</div>
+          <div class="order-date">{{ order.created_at|date:"d.m.Y H:i" }}</div>
+        </div>
+
+        <div class="order-preview">
+          {% with first=order.items.all|first %}
+            {% if first and first.goods.picture %}
+              <img src="{{ first.goods.picture.url }}" alt="{{ first.goods.name }}">
+            {% else %}
+              <div class="no-image small">no image</div>
+            {% endif %}
+          {% endwith %}
+        </div>
+
+        <div class="order-meta">
+          Товаров: {{ order.items.count }}<br>
+          Сумма: {{ cart.total_price }} $
+          
+
+        
+      </div>
+    {% empty %}
+      <p>У вас пока нет оформленных заказов.</p>
+    {% endfor %}
+  </div>
+</div>
+</body>
+</html>
